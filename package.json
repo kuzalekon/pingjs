@@ -1,6 +1,6 @@
 {
   "name": "pings",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pings is a small and simply utility to ping webservers from client-side (browser)",
   "main": "pings.js",
   "browser": "pings.min.js",
