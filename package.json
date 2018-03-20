@@ -1,0 +1,30 @@
+{
+  "name": "ringo",
+  "version": "1.0.0",
+  "description": "Utility to ping hosts from the client-side (from browser)",
+  "main": "ringo.js",
+  "scripts": {
+    "compress": "uglifyjs -c -mt -o ringo.min.js ringo.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kalexey89/ringo.git"
+  },
+  "keywords": [
+    "ping",
+    "check",
+    "url",
+    "host",
+    "util",
+    "utility"
+  ],
+  "author": "Kuznetsov Aleksey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kalexey89/ringo/issues"
+  },
+  "homepage": "https://github.com/kalexey89/ringo#readme",
+  "devDependencies": {
+    "uglify-js": "^3.3.16"
+  }
+}

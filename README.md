@@ -1,2 +1,2 @@
-# knockjs
-Knock.js is designed to ping hosts from the client-side (in browser)
+# Ringo
+Ringo is a small and simply utility to ping webservers from client-side (from browser)
