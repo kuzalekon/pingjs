@@ -1,8 +1,9 @@
 {
   "name": "ringo",
   "version": "1.0.0",
-  "description": "Utility to ping hosts from the client-side (from browser)",
+  "description": "Ringo is a small and simply utility to ping webservers from client-side (browser)",
   "main": "ringo.js",
+  "browser": "ringo.min.js",
   "scripts": {
     "compress": "uglifyjs -c -mt -o ringo.min.js ringo.js"
   },
@@ -16,7 +17,10 @@
     "url",
     "host",
     "util",
-    "utility"
+    "utility",
+    "browser",
+    "client-side",
+    "webserver"
   ],
   "author": "Kuznetsov Aleksey",
   "license": "MIT",
