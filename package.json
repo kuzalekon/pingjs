@@ -1,15 +1,15 @@
 {
-  "name": "ringo",
+  "name": "pings",
   "version": "1.0.0",
   "description": "Ringo is a small and simply utility to ping webservers from client-side (browser)",
-  "main": "ringo.js",
-  "browser": "ringo.min.js",
+  "main": "pings.js",
+  "browser": "pings.min.js",
   "scripts": {
-    "compress": "uglifyjs -c -mt -o ringo.min.js ringo.js"
+    "compress": "uglifyjs -c -mt -o pings.min.js pings.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kalexey89/ringo.git"
+    "url": "git+https://github.com/kalexey89/pings.git"
   },
   "keywords": [
     "ping",
@@ -26,9 +26,9 @@
   "author": "Kuznetsov Aleksey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kalexey89/ringo/issues"
+    "url": "https://github.com/kalexey89/pings/issues"
   },
-  "homepage": "https://github.com/kalexey89/ringo#readme",
+  "homepage": "https://github.com/kalexey89/pings#readme",
   "devDependencies": {
     "uglify-js": "^3.3.16"
   }

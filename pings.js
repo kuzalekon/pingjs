@@ -8,7 +8,7 @@
     else
         root[name] = init(window, document);
 
-}('ringo', this, function (win, doc) {
+}('pings', this, function (win, doc) {
 
     var Ping = (function () {
 
@@ -108,7 +108,7 @@
 
     }());
 
-    return function ringo(host, callback, timeout) {
+    return function pings(host, callback, timeout) {
         new Ping(host, callback, timeout);
     }
 
