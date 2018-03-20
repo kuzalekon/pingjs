@@ -1,7 +1,7 @@
 {
   "name": "pings",
   "version": "1.0.0",
-  "description": "Ringo is a small and simply utility to ping webservers from client-side (browser)",
+  "description": "Pings is a small and simply utility to ping webservers from client-side (browser)",
   "main": "pings.js",
   "browser": "pings.min.js",
   "scripts": {
