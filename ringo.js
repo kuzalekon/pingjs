@@ -98,7 +98,7 @@
             favicon.src = url.href;
             favicon.onload = favicon.onerror = function __onFaviconResponse(event) {
                 if (!this.__timeout) {
-                    win.clearTimeout(this.__timeoutTimer);
+                    win.clearTimeout(this.__timer);
                     callback(null, event.type === 'load' ? ONLINE : OFFLINE);
                 }
             }.bind(this);
