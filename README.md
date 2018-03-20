@@ -1,4 +1,4 @@
-# Ringo
+# Pings
 Ringo is a small and simply utility to ping webservers from client-side (browser)
 
 ## Usage
