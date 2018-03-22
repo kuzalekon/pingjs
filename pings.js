@@ -1,10 +1,13 @@
 
 (function (name, root, init) {
 
+    // RequireJS and other-like
     if (typeof define === 'function' && define.amd)
-        define(name, init(window, document));
+        define(name, function () { return init(window, document) });
+    // CommonJS and other-like
     else if (typeof module === 'object' && module.exports)
         module.exports = init(window, document);
+    // Other environments (browser & etc)
     else
         root[name] = init(window, document);
 
