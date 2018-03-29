@@ -1,15 +1,15 @@
 {
-  "name": "pings",
-  "version": "1.0.3",
-  "description": "Pings is a small and simply utility to ping webservers from client-side (browser)",
-  "main": "pings.js",
-  "browser": "pings.min.js",
+  "name": "ping-js",
+  "version": "1.0.0",
+  "description": "PingJS is a small and simply utility to ping webservers from client-side (browser)",
+  "main": "ping.js",
+  "browser": "ping.min.js",
   "scripts": {
-    "compress": "uglifyjs -c -mt -o pings.min.js pings.js"
+    "compress": "uglifyjs -c -mt -o ping.min.js ping.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kalexey89/pings.git"
+    "url": "git+https://github.com/kalexey89/ping-js.git"
   },
   "keywords": [
     "ping",
