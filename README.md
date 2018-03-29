@@ -7,6 +7,7 @@
 Since it is not possible to check the availability of host using XMLHttpRequest because of Same-Origin-Policy, the following methods have been tested:
 
 Fetch API - the replacement of XMLHttpRequest. It was noticed that if you execute "fetch" in the "no-cors" mode, unlike XMLHttpRequest, the "Origin" header will not be added to the query, which makes it possible to "get through" to the resource. The approach gives a 100% guarantee of reliability of verification.
+
 Attempt to request a resource through the "script" tag. We create an instance of the "script" tag, in the "src" attribute we specify the address of the resource and sets the handlers of the "load" and "error" events. Accordingly, if the "load" event has occurred, the resource is available, and if "error" is not available. The approach has the following disadvantages:
 A script parse error is written to the browser console;
 If Content-Security-Policy is defined on domain the "error" event is raised. Reliability by my estimates - 80% - 90%.
