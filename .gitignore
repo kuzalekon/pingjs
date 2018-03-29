@@ -1,11 +1,9 @@
-# Node.js modules
+# NodeJS modules
 node_modules
 
 # Lock files
 package-lock.json
-yarn.lock
-bower.lock
+*.lock
 
 # Log files
-npm-debug.log
-yarn-error.log
+*.log

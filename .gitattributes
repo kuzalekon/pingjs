@@ -1,4 +1,4 @@
-* text=auto
+* text=crlf
 
 *.js            text eol=crlf
 
