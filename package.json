@@ -5,7 +5,9 @@
   "main": "ping.js",
   "browser": "ping.min.js",
   "scripts": {
-    "compress": "uglifyjs -c -mt -o ping.min.js ping.js"
+    "transpile": "babel ping.js > ping.es5.js",
+    "uglify": "uglifyjs -c -o ping.min.js ping.js",
+    "compile": "babel ping.js | uglifyjs -c -m -o ping.min.js --"
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,10 @@
   },
   "homepage": "https://github.com/kalexey89/pings#readme",
   "devDependencies": {
-    "uglify-js": "^3.3.16"
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "uglify-js": "^3.3.16",
+    "uglifyjs": "^2.4.11"
   }
 }
