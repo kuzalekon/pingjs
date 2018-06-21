@@ -1,41 +1,39 @@
 {
-  "name": "ping-js",
+  "name": "pingjs",
   "version": "1.0.0",
-  "description": "PingJS is a small and simply utility to ping webservers from client-side (browser)",
+  "description": "PingJS is a small and simply utility to ping http-servers from browser",
   "main": "ping.js",
   "browser": "ping.min.js",
   "scripts": {
-    "transpile": "babel ping.js > ping.es5.js",
-    "uglify": "uglifyjs -c -o ping.min.js ping.js",
-    "compile": "babel ping.js | uglifyjs -c -m -o ping.min.js --"
+    "build": "babel ping.js | uglifyjs -c -m -o ping.min.js --"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kalexey89/ping-js.git"
+    "url": "git+https://github.com/kalexey89/pingjs.git"
   },
   "keywords": [
     "ping",
     "check",
     "url",
     "host",
-    "hosts",
     "util",
     "utility",
     "browser",
-    "client-side",
-    "webserver"
+    "client",
+    "server",
+    "http"
   ],
   "author": "Kuznetsov Aleksey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kalexey89/pings/issues"
+    "url": "https://github.com/kalexey89/pingjs/issues"
   },
-  "homepage": "https://github.com/kalexey89/pings#readme",
+  "homepage": "https://github.com/kalexey89/pingjs#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "uglify-js": "^3.3.16",
-    "uglifyjs": "^2.4.11"
+    "uglify-js": "^3.3.16"
   }
 }
