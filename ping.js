@@ -13,86 +13,106 @@
 
 }('ping', this, function (doc) {
 
-    function pingByFetch(url, start) {
+    const ping = (host, options = {}) => {
         return new Promise((resolve, reject) => {
-            if (typeof fetch !== 'function')
-                return reject(new Error('no such method'));
-
-            fetch(url.href, { method: 'HEAD', cache: 'no-cache', mode: 'no-cors' }).then(() => {
-                resolve({ host: url.host, status: 'online', time: (Date.now() - start) });
-            }, () => {
-                resolve({ host: url.host, status: 'offline', time: (Date.now() - start) });
-            });
-        });
-    }
-
-    function pingByScript(url, start) {
-        return new Promise((resolve, reject) => {
-            const onerror = (event) => {
-                doc.head.removeChild(event.target);
-                reject(new Error('cannot check status'));
-            }
-
-            const onload = (event) => {
-                doc.head.removeChild(event.target);
-                resolve({ host: url.host, status: 'online', time: (Date.now() - start) });
-            }
-
-            url.search = `_=${start}`;
-
-            const script = doc.createElement('script');
-            script.onerror = onerror;
-            script.onload = onload;
-            script.type = 'application/javascript'; // Required in HTML4
-            script.src = url.href;
-            doc.head.appendChild(script);
-        });
-    }
-
-    function pingByFavicon(url, favicon, start) {
-        return new Promise((resolve, reject) => {
-            url.pathname = favicon;
-            url.search = `_=${start}`;
-
-            const image = new Image();
-            image.onerror = () => resolve({ host: url.host, status: 'offline', time: (Date.now() - start) });
-            image.onload = () => resolve({ host: url.host, status: 'online', time: (Date.now() - start) });
-            image.src = url.href;
-        });
-    }
-
-    return function ping(host, options = {}) {
-        return new Promise((resolve, reject) => {
-            const url = doc.createElement('a');
+            const url = doc.createElement('a'); // HTMLAnchorElement as URL wrapper
             url.href = host;
+            // cleanup all URL paths except host
             url.pathname = '';
             url.search = '';
             url.hash = '';
-            if (location.protocol === 'https:' && url.protocol === 'http:')
-                return reject(new Error('insecure request'));
+            url.username = '';
+            url.password = '';
 
-            const timeout = options.timeout || 60 * 1000;
-            const favicon = options.favicon || 'favicon.ico';
-            const timerid = setTimeout(() => resolve({ host: host, status: 'timeout', time: timeout }), timeout);
+            host = url.host; // normalize host
 
-            pingByFetch(url, Date.now()).then((result) => {
-                clearTimeout(timerid);
-                resolve(result);
-            }, (error) => {
-                pingByScript(url, Date.now()).then((result) => {
-                    clearTimeout(timerid);
-                    resolve(result);
-                }, (error) => {
-                    pingByFavicon(url, favicon, Date.now()).then((result) => {
-                        clearTimeout(timerid);
-                        resolve(result);
-                    }, (error) => {
-                        clearTimeout(timerid);
-                        reject(error);
-                    });
+            const timeout = options.timeout || 60 * 1000; // 1 minute
+            const favicon = options.favicon || 'favicon.ico' // most popular favicon path
+
+            // setup a request timeout
+            const timerId = setTimeout(() => {
+                resolve({ host: host, method: undefined, status: 'timeout', time: timeout });
+            }, timeout);
+
+            const pingByFavicon = () => {
+                url.pathname = favicon;
+                url.search = '?_=' + new Date().getTime();
+
+                const start = new Date().getTime();
+                let result = { host: host, method: 'favicon' };
+
+                const callback = (event) => {
+                    clearTimeout(timerId);
+                    result = { ...result, time: new Date().getTime() - start };
+                    switch (event.type) {
+                        case 'load': resolve({ ...result, status: 'online' }); break;
+                        case 'error': resolve({ ...result, status: 'offline' }); break;
+                        default: reject();
+                    }
+                }
+
+                const image = new Image();
+                image.onload = callback;
+                image.onerror = callback;
+                image.crossorigin = 'anonymous';
+                image.src = url.href;
+            }
+
+            const pingByScript = () => {
+                url.search = '?_=' + new Date().getTime();
+
+                const start = new Date().getTime();
+                let result = { host: host, method: 'script' };
+
+                const callback = (event) => {
+                    clearTimeout(timerId);
+                    result = { ...result, time: new Date().getTime() - start };
+                    switch (event.type) {
+                        case 'load': resolve({ ...result, status: 'online' }); break;
+                        case 'error': resolve({ ...result, status: 'offline' }); break;
+                        default: reject();
+                    }
+                }
+
+                const script = doc.createElement('script');
+                script.onload = callback;
+                script.onerror = callback;
+                script.type = 'application/javascript'; // required in HTML4
+                script.crossorigin = 'anonymous';
+                script.src = url.href;
+
+                doc.head.appendChild(script);
+            }
+
+            const pingByFetch = () => {
+                const init = {
+                    method: 'head',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    credentials: 'omit',
+                    redirect: 'manual'
+                };
+
+                const start = new Date().getTime();
+                const result = { host: host, method: 'fetch' };
+
+                fetch(url.href, init).then(() => {
+                    resolve({ ...result, status: 'online', time: new Date().getTime() - start });
+                }, () => {
+                    resolve({ ...result, status: 'offline', time: new Date().getTime() - start });
                 });
-            });
+            }
+
+            if (location.protocol === 'https:' && url.protocol === 'http:')
+                return pingByFavicon();
+
+            if (!fetch)
+                return pingByScript();
+
+            pingByFetch();
         });
     }
+
+    return ping;
 
 }));
