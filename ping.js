@@ -11,7 +11,7 @@
     else
         root[name] = init(document);
 
-}('ping', this, function (doc) {
+}('ping', this || window, function (doc) {
 
     'use strict';
 
@@ -96,22 +96,19 @@
                 const result = { host: host, accuracy: 'medium' };
                 const head = doc.getElementsByTagName('head')[0];
 
-                /**
-                 * Callback used by "onload" and "onerror" handlers of script element
-                 *
-                 * @callback
-                 * @param {Event} event
-                 */
+                // Callback used by "onload" and "onerror" handlers of script element
                 const callback = (event) => {
                     clearTimeout(timerId);
                     head.removeChild(event.target);
 
-                    if (event.type === 'error')
-                        return pingByFavicon();
-
-                    result.status = 'available';
-                    result.time = +new Date() - start;
-                    resolve(result);
+                    if (event.type === 'error') {
+                        pingByFavicon();
+                    }
+                    else {
+                        result.status = 'available';
+                        result.time = +new Date() - start;
+                        resolve(result);
+                    }
                 }
 
                 const script = doc.createElement('script');
@@ -141,15 +138,18 @@
 
             // If our page is loaded via HTTPS, but the tested host can be loaded
             // only via HTTP, then the only way to check is to request favicon
-            if (location.protocol === 'https:' && url.protocol === 'http:')
-                return pingByFavicon();
-
+            if (location.protocol === 'https:' && url.protocol === 'http:') {
+                pingByFavicon();
+            }
             // In older browsers (where there is no method "fetch") we only can check host
             // availability by requesting index page as script and/or favicon
-            if (!fetch)
-                return pingByScript();
-
-            pingByFetch();
+            else if (!fetch) {
+                pingByScript();
+            }
+            // All ok, we can check availability with high accuracy
+            else {
+                pingByFetch();
+            }
         });
     }
 
